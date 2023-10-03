@@ -1,13 +1,13 @@
 # ninja log v5
-0	663	7179744555692608	CMakeFiles/untitled.dir/main.cpp.obj	29bbd3b71409e91e
-667	827	7179744557292592	untitled.exe	261af487ef5b78b9
-9	101	7179783716358951	CMakeFiles/untitled.dir/Array.cpp.obj	2dbc8a9438c1e9d1
-15	817	7179783723529143	CMakeFiles/untitled.dir/PlainInitArray.cpp.obj	5a3551988cc4daae
-4	507	7179784488031325	CMakeFiles/untitled.dir/main.cpp.obj	29bbd3b71409e91e
-507	725	7179784490171353	untitled.exe	9258670291743898
-5	541	7179784703481717	CMakeFiles/untitled.dir/main.cpp.obj	29bbd3b71409e91e
-541	668	7179784704712041	untitled.exe	9258670291743898
-3	649	7179800280630823	CMakeFiles/untitled.dir/main.cpp.obj	29bbd3b71409e91e
-650	803	7179800282120822	untitled.exe	9258670291743898
-3	644	7179800790810596	CMakeFiles/untitled.dir/main.cpp.obj	29bbd3b71409e91e
-644	786	7179800792200723	untitled.exe	9258670291743898
+7	1650	7181412515564796	CMakeFiles/untitled.dir/main.cpp.obj	29bbd3b71409e91e
+1008	1159	7180601564354725	untitled.exe	bfc64295ba76e737
+3	900	7180593199530301	CMakeFiles/untitled.dir/PlainInitArray.cpp.obj	5a3551988cc4daae
+4	601	7180594102606364	CMakeFiles/untitled.dir/SimpleInitArray.cpp.obj	d44e2475de366af6
+3	86	7180345275493046	CMakeFiles/untitled.dir/Array.cpp.obj	2dbc8a9438c1e9d1
+10	556	7181412378079983	CMakeFiles/untitled.dir/FolkloreInitArray.cpp.obj	14e9605543e7fb15
+9	258	7181421443732408	CMakeFiles/untitled.dir/NavarroInitArray.cpp.obj	2e55cb7ea216a7
+14	579	7181421446932405	CMakeFiles/untitled.dir/FolkloreInitArray.cpp.obj	14e9605543e7fb15
+3	1132	7181421452452754	CMakeFiles/untitled.dir/main.cpp.obj	29bbd3b71409e91e
+1132	1435	7181421455452404	untitled.exe	c2d5ce334520efd9
+3	1071	7181429074779630	CMakeFiles/untitled.dir/main.cpp.obj	29bbd3b71409e91e
+1071	1236	7181429076379998	untitled.exe	c2d5ce334520efd9

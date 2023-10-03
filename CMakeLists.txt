@@ -7,4 +7,11 @@ add_executable(untitled main.cpp
         Array.cpp
         Array.h
         PlainInitArray.cpp
-        PlainInitArray.h)
+        PlainInitArray.h
+        SimpleInitArray.cpp
+        SimpleInitArray.h
+        FolkloreInitArray.cpp
+        FolkloreInitArray.h
+        NavarroInitArray.cpp
+        NavarroInitArray.h
+)

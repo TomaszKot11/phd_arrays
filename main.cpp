@@ -2,6 +2,26 @@
 #include <cstdint>
 #include <vector>
 #include <variant>
+#include "Array.h"
+#include "PlainInitArray.h"
+#include "SimpleInitArray.h"
+#include "FolkloreInitArray.h"
+#include <map>
+#include <chrono>
+#include <memory>
+#include <cstring>
+
+
+// unique_ptr?
+Array* create_instance(std::string alg_name, int n, double default_value) {
+    if(alg_name == "PlainInitArray") {
+        return new PlainInitArray(n, default_value);
+    } else if(alg_name == "SimpleInitArray") {
+        return new SimpleInitArray(n, default_value);
+    } else if(alg_name == "FolkloreInitArray") {
+        return new FolkloreInitArray(n, default_value);
+    }
+}
 
 int main() {
     const int n = (1 << 27) + 5;
@@ -11,45 +31,44 @@ int main() {
     const std::vector<std::string > array_types = {
             "PlainInitArray",
             "SimpleInitArray",
-            "SimpleInitArray64",
-            "SimpleInitArray64a",
+//            "SimpleInitArray64",
+//            "SimpleInitArray64a",
             "FolkloreInitArray",
-            "NavarroInitArray",
-            "InterleavedSimpleInitArray64a",
-            "InterleavedFolkloreInitArray_v1",
-            "InterleavedFolkloreInitArray_v2",
-            "BlockSimpleInitArray8_64",
-            "BlockFolkloreHybridInitArray"
+//            "NavarroInitArray",
+//            "InterleavedSimpleInitArray64a",
+//            "InterleavedFolkloreInitArray_v1",
+//            "InterleavedFolkloreInitArray_v2",
+//            "BlockSimpleInitArray8_64",
+//            "BlockFolkloreHybridInitArray"
     };
-
-//    std::vector<
-//            std::tuple<std::string, std::variant<int, std::pair<int, int>>,
-//            std::variant<int, std::pair<int, int>>>
-//            >ops
-
-        std::vector<std::tuple<std::string, int, int>> ops = {
+        std::vector<std::tuple<std::string, int, int>> opss = {
                             std::make_tuple("read", 123, 123), std::make_tuple("write", 2, 100), std::make_tuple("write", 123, 789),
                             std::make_tuple("write", 1LL << 27 | 3, 81), std::make_tuple("read", 2, 2), std::make_tuple("read", 3, 3),
                             std::make_tuple("read", 123, 123), std::make_tuple("read", 1LL << 27 | 3, 1LL << 27 | 3)
                            };
 
-    for(std::string alg_type : array_types) {
+    for(std::string cur_array : array_types) {
             std::vector<std::string> ops = {"read", "write"};
-            std::string array_type = "my_array";
-            int n = 10;
-            std::vector<std::string> cur_array(n, "default");
-            std::string array_type_name = std::string(array_type).substr(array_type.find_last_of('.') + 1);
-            std::cout << left << setw(40) << array_type_name << "\t";
-            for (const std::string &op : ops) {
-                if (op == "read") {
-                    std::cout << cur_array[1] << "\t";
-                } else if (op == "write") {
-                    cur_array[1] = "new_value";
-                } else {
-                    throw std::runtime_error("Invalid operation");
-                }
+            // TODO: memory allocation (?)
+            Array* createdArray = create_instance(cur_array, n, default_value);
+            std::cout << "Witam serdecznie 1" << std::endl;
+
+            for(auto const& [path, status, size] : opss) {
+               if(path == "read") {
+                   std::cout << "read" << std::endl;
+                   createdArray->read(status);
+               } else if(path == "write") {
+                   std::cout << "write" << " " << status << " " << size << std::endl;
+                   createdArray->write(status, size);
+               } else {
+                   throw std::runtime_error("Invalid operation");
+               }
+               std::cout << std::endl;
             }
-            std::cout << std::endl;
+
+            // TODO: perform memory and time tests
+
+            delete createdArray;
     }
 
     std::cout << "Hello World" << std::endl;
