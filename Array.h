@@ -23,6 +23,23 @@ class Array {
 
         virtual double read(int i) = 0;
         virtual void write(int i, double value) = 0;
+
+        // boilerplate - no reflection "B", "C", "S", "N", "top"
+        virtual size_t get_B() {
+            return 0;
+        }
+        virtual size_t get_C() {
+             return 0;
+        }
+        virtual size_t get_S() {
+            return 0;
+        }
+        virtual size_t get_N() {
+            return 0;
+        }
+        virtual size_t get_top() {
+            return 0;
+        }
 };
 
 

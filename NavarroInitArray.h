@@ -30,7 +30,7 @@ class NavarroInitArray: public Array {
         } else {
             no_bits = N;
         }
-        this->B = std::vector<int64_t>(N_ // 64, 0);
+//        this->B = std::vector<int64_t>(N_ // 64, 0);
 //        global temp_times;
 
 //        int no_bits = N_ + ((64 - (N_ % 64))

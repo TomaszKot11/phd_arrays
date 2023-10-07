@@ -14,13 +14,13 @@ class FolkloreInitArray: public Array {
             const int N_;
             const int DEFAULT_VALUE_;
             int top;
-            std::vector<int> S, C;
-            std::vector<int> A;
+            std::vector<int32_t> S,C, data; // "stack", check array, data
 public:
     FolkloreInitArray(int N, int DEFAULT_VALUE);
 
-    double read(int i);
-    void write(int i, double value);
+    double read(int i) override;
+    void write(int i, double value) override;
+    int is_initialized(int i) ;
 };
 
 

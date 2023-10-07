@@ -4,20 +4,55 @@
 #include <variant>
 #include "Array.h"
 #include "PlainInitArray.h"
-#include "SimpleInitArray.h"
+#include "SimpleInit32Array.h"
+#include "SimpleInit64Array.h"
 #include "FolkloreInitArray.h"
 #include <map>
 #include <chrono>
 #include <memory>
 #include <cstring>
 
+// Array types to test
+const std::vector<std::string > array_types = {
+        "PlainInitArray",
+        "SimpleInit32Array",
+        "SimpleInit64Array",
+//            "SimpleInitArray64",
+//            "SimpleInitArray64a",
+        "FolkloreInitArray",
+//            "NavarroInitArray",
+//            "InterleavedSimpleInitArray64a",
+//            "InterleavedFolkloreInitArray_v1",
+//            "InterleavedFolkloreInitArray_v2",
+//            "BlockSimpleInitArray8_64",
+//            "BlockFolkloreHybridInitArray"
+};
+
+// TODO: refactor this
+size_t get_property_size(Array* array_ptr, std::string field_name) {
+    if (field_name == "B") {
+        array_ptr->get_B();
+    } else if (field_name == "C") {
+        array_ptr->get_C();
+    } else if (field_name == "S") {
+        array_ptr->get_S();
+    } else if (field_name == "N") {
+        array_ptr->get_N();
+    } else if (field_name == "top") {
+        array_ptr->get_top();
+    } else {
+        throw std::runtime_error("Invalid attribute name");
+    }
+}
 
 // unique_ptr?
 Array* create_instance(std::string alg_name, int n, double default_value) {
     if(alg_name == "PlainInitArray") {
         return new PlainInitArray(n, default_value);
-    } else if(alg_name == "SimpleInitArray") {
-        return new SimpleInitArray(n, default_value);
+    } else if(alg_name == "SimpleInit32Array") {
+        return new SimpleInit32Array(n, default_value);
+    } else if(alg_name == "SimpleInit64Array") {
+        return new SimpleInit64Array(n, default_value);
     } else if(alg_name == "FolkloreInitArray") {
         return new FolkloreInitArray(n, default_value);
     }
@@ -28,19 +63,20 @@ int main() {
     const int32_t default_value = -1;
 
     // Array types to test
-    const std::vector<std::string > array_types = {
-            "PlainInitArray",
-            "SimpleInitArray",
-//            "SimpleInitArray64",
-//            "SimpleInitArray64a",
-            "FolkloreInitArray",
-//            "NavarroInitArray",
-//            "InterleavedSimpleInitArray64a",
-//            "InterleavedFolkloreInitArray_v1",
-//            "InterleavedFolkloreInitArray_v2",
-//            "BlockSimpleInitArray8_64",
-//            "BlockFolkloreHybridInitArray"
-    };
+//    const std::vector<std::string > array_types = {
+//            "PlainInitArray",
+//            "SimpleInit32Array",
+//            "SimpleInit64Array",
+////            "SimpleInitArray64",
+////            "SimpleInitArray64a",
+//            "FolkloreInitArray",
+////            "NavarroInitArray",
+////            "InterleavedSimpleInitArray64a",
+////            "InterleavedFolkloreInitArray_v1",
+////            "InterleavedFolkloreInitArray_v2",
+////            "BlockSimpleInitArray8_64",
+////            "BlockFolkloreHybridInitArray"
+//    };
         std::vector<std::tuple<std::string, int, int>> opss = {
                             std::make_tuple("read", 123, 123), std::make_tuple("write", 2, 100), std::make_tuple("write", 123, 789),
                             std::make_tuple("write", 1LL << 27 | 3, 81), std::make_tuple("read", 2, 2), std::make_tuple("read", 3, 3),
@@ -65,6 +101,39 @@ int main() {
                }
                std::cout << std::endl;
             }
+
+//            for(std::string cur_array : array_types) {
+//
+//            }
+
+            // SYF
+        constexpr int n = 1000000;
+
+        std::map<std::string, int> init_times;
+        std::unordered_map<std::string, int> memory_usage;
+
+        for (const std::string& array_type : array_types) {
+            // TODO: memory allocation
+            auto cur_array = make_pair(array_type,  create_instance(array_type, n, default_value));
+            std::string array_type_name = cur_array.first.substr(array_type.length() - 2);
+//            init_times[array_type_name] = temp_times[1] - temp_times[0];
+
+            size_t tmp_size = 0;
+            for (const std::string& field_name : {"B", "C", "S", "N", "top"}) {
+                // TODO: refactor/catch the error
+                tmp_size += get_property_size(cur_array.second, field_name);
+            }
+
+//            if (array_type_name == "InterleavedFolkloreInitArray" || array_type_name == "InterleavedFolkloreInitArray2") {
+//                tmp_size += asizeof(cur_array.second->A) / 2;
+//            } else if (array_type_name == "InterleavedSimpleInitArray64a") {
+//                tmp_size += asizeof(cur_array.second->A) / 33;  // only approximately
+//            }
+
+            memory_usage[array_type_name] = tmp_size;
+        }
+
+        // END SYF
 
             // TODO: perform memory and time tests
 

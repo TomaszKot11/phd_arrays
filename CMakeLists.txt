@@ -8,10 +8,12 @@ add_executable(untitled main.cpp
         Array.h
         PlainInitArray.cpp
         PlainInitArray.h
-        SimpleInitArray.cpp
-        SimpleInitArray.h
+        SimpleInit32Array.cpp
+        SimpleInit32Array.h
         FolkloreInitArray.cpp
         FolkloreInitArray.h
         NavarroInitArray.cpp
         NavarroInitArray.h
+        SimpleInit64Array.cpp
+        SimpleInit64Array.h
 )

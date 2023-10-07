@@ -67,8 +67,8 @@ build CMakeFiles/untitled.dir/PlainInitArray.cpp.obj: CXX_COMPILER__untitled_uns
   OBJECT_DIR = CMakeFiles\untitled.dir
   OBJECT_FILE_DIR = CMakeFiles\untitled.dir
 
-build CMakeFiles/untitled.dir/SimpleInitArray.cpp.obj: CXX_COMPILER__untitled_unscanned_Debug C$:/Users/kotto/CLionProjects/untitled/SimpleInitArray.cpp || cmake_object_order_depends_target_untitled
-  DEP_FILE = CMakeFiles\untitled.dir\SimpleInitArray.cpp.obj.d
+build CMakeFiles/untitled.dir/SimpleInit32Array.cpp.obj: CXX_COMPILER__untitled_unscanned_Debug C$:/Users/kotto/CLionProjects/untitled/SimpleInit32Array.cpp || cmake_object_order_depends_target_untitled
+  DEP_FILE = CMakeFiles\untitled.dir\SimpleInit32Array.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\untitled.dir
   OBJECT_FILE_DIR = CMakeFiles\untitled.dir
@@ -85,6 +85,12 @@ build CMakeFiles/untitled.dir/NavarroInitArray.cpp.obj: CXX_COMPILER__untitled_u
   OBJECT_DIR = CMakeFiles\untitled.dir
   OBJECT_FILE_DIR = CMakeFiles\untitled.dir
 
+build CMakeFiles/untitled.dir/SimpleInit64Array.cpp.obj: CXX_COMPILER__untitled_unscanned_Debug C$:/Users/kotto/CLionProjects/untitled/SimpleInit64Array.cpp || cmake_object_order_depends_target_untitled
+  DEP_FILE = CMakeFiles\untitled.dir\SimpleInit64Array.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\untitled.dir
+  OBJECT_FILE_DIR = CMakeFiles\untitled.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target untitled
@@ -93,7 +99,7 @@ build CMakeFiles/untitled.dir/NavarroInitArray.cpp.obj: CXX_COMPILER__untitled_u
 #############################################
 # Link the executable untitled.exe
 
-build untitled.exe: CXX_EXECUTABLE_LINKER__untitled_Debug CMakeFiles/untitled.dir/main.cpp.obj CMakeFiles/untitled.dir/Array.cpp.obj CMakeFiles/untitled.dir/PlainInitArray.cpp.obj CMakeFiles/untitled.dir/SimpleInitArray.cpp.obj CMakeFiles/untitled.dir/FolkloreInitArray.cpp.obj CMakeFiles/untitled.dir/NavarroInitArray.cpp.obj
+build untitled.exe: CXX_EXECUTABLE_LINKER__untitled_Debug CMakeFiles/untitled.dir/main.cpp.obj CMakeFiles/untitled.dir/Array.cpp.obj CMakeFiles/untitled.dir/PlainInitArray.cpp.obj CMakeFiles/untitled.dir/SimpleInit32Array.cpp.obj CMakeFiles/untitled.dir/FolkloreInitArray.cpp.obj CMakeFiles/untitled.dir/NavarroInitArray.cpp.obj CMakeFiles/untitled.dir/SimpleInit64Array.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\untitled.dir
