@@ -23,6 +23,7 @@ public:
 
     double read(int i) override;
     void write(int i, double value) override;
+
     size_t get_N() override;
     size_t get_B() override;
 };

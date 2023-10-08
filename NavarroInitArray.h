@@ -27,37 +27,11 @@ class NavarroInitArray: public Array {
     double read(int i) override;
     void write(int i, double value) override;
 
-    //{
-//        int index_in_B = i / 64;
-//        bool initialized = (0 <= this->C[index_in_B] <= this->top) && (this->S[this->C[index_in_B]] == index_in_B);
-//        if (!initialized) {
-//            return DEFAULT_VALUE;
-//        } else {
-//            bool cur_bit = (this->B[index_in_B] >> (i % 64)) & 1;
-//            if (cur_bit == 1) {
-//                return this->A[i];
-//            } else {
-//                return DEFAULT_VALUE;
-//            }
-//        }
-//    }
-
-   // {
-//        int index_in_B = i / 64;
-//        bool initialized = (0 <= this->C[index_in_B] && this->C[index_in_B] <= this->top) && (this->S[this->C[index_in_B]] == index_in_B);
-//        if (initialized) {
-//            uint64_t tmp = this->B[index_in_B].astype(uint64_t, casting = "unsafe");
-//            uint64_t tmp;
-//            tmp |= 1ULL << (i % 64);
-//            this->B[index_in_B] = tmp.astype(int64_t, casting = "unsafe");
-//        } else {
-//            this->top += 1;
-//            this->S[this->top] = index_in_B;
-//            this->C[index_in_B] = this->top;
-//            this->B[index_in_B] = 1LL << (i % 64);
-//        }
-//        this->A[i] = value;
-//    }
+    size_t get_N() override;
+    size_t get_S() override;
+    size_t get_C() override;
+    size_t get_top() override;
+    size_t get_B() override;
 };
 
 

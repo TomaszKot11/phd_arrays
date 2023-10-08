@@ -58,3 +58,24 @@ void NavarroInitArray::write(int i, double value) {
         this->data[i] = value;
     }
 }
+
+
+size_t NavarroInitArray::get_N() {
+    return 0;
+}
+
+size_t NavarroInitArray::get_S() {
+    return 0;
+}
+
+size_t NavarroInitArray::get_C() {
+    return 0;
+}
+
+size_t NavarroInitArray::get_top() {
+    return 0;
+}
+
+size_t NavarroInitArray::get_B() {
+    return 0;
+}

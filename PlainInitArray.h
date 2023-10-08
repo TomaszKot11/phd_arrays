@@ -18,16 +18,18 @@
 #include <functional>
 #include <iomanip>
 #include <cmath>
+#include <chrono>
 
 class PlainInitArray: public Array {
     private:
         int N;
         double DEFAULT_VALUE;
-        std::vector<int32_t> data; // int32
-    //        microsecond_duration<double, std::nano> t1, t2;
-//        double temp_times[2]{};
+        int32_t* data; // int32
+        std::chrono::time_point<std::chrono::steady_clock> start_time;
+        std::chrono::time_point<std::chrono::steady_clock> stop_time;
     public:
         PlainInitArray(int N_, double DEFAULT_VALUE_);
+        ~PlainInitArray();
 
         double read(int i);
         void write(int i, double value);
