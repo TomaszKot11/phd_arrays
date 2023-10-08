@@ -4,24 +4,28 @@
 
 #include <iostream>
 #include "FolkloreInitArray.h"
+#include <chrono>
 
 FolkloreInitArray::FolkloreInitArray(int N_, int DEFAULT_VALUE_) : N_(N_), DEFAULT_VALUE_(DEFAULT_VALUE_), top(-1){
-    this->data = std::vector<int32_t>(N_, DEFAULT_VALUE_); // empty_like
+    this->data = new int32_t[N_];// empty_like
 
     // If this is a stack is it right to initialize it "up-front" with N * int32_t
-    this->S = std::vector<int32_t>(N_, DEFAULT_VALUE_); // "stack"
-    this->C = std::vector<int32_t>(N_, DEFAULT_VALUE_); // empty_like
+    this->S = new uint32_t[N_];// "stack"
+    this->C = new int32_t[N_];// empty_like
 
     this->top = -1; // V <- -1
+
+    this->start_time = std::chrono::steady_clock::now();
+    this->stop_time = std::chrono::steady_clock::now();
 }
 
-// i as int32_t ?
+// i as int32_t ?, return int32_t
 double FolkloreInitArray::read(int i) {
     // Complexity -> traverse stack so size(STACK) + n
     return is_initialized(i) ? this->data[i] : this->DEFAULT_VALUE_;
 }
 
-// int32_t as i,
+// uint32_t as i, double as int32_t (?)
 void FolkloreInitArray::write(int i, double value) {
     // assign the value
     this->data[i] = value; // value should be int32_t
@@ -33,8 +37,32 @@ void FolkloreInitArray::write(int i, double value) {
     }
 }
 
-//int32_t?
+// TODO: i as uint32_t
 int FolkloreInitArray::is_initialized(int i) {
-    // 0 <= C[i] <= top & S[C[i]] = i
-    return 0 <= this-> C[i] <= top && S[C[i]] == i;
+    return 0 <= this->C[i] <= top && S[C[i]] == (uint32_t)i;
+}
+
+FolkloreInitArray::~FolkloreInitArray() {
+    // TODO: free the memory
+    delete[] this->data;
+    delete[] this->S;
+    delete[] this->C;
+}
+
+// boilerplate
+size_t FolkloreInitArray::get_N() {
+    return sizeof(this->N_);
+}
+
+// TODO: this is size of a pointer
+size_t FolkloreInitArray::get_S() {
+    return sizeof(this->S);
+}
+
+size_t FolkloreInitArray::get_C() {
+    return sizeof(this->C);
+}
+
+size_t FolkloreInitArray::get_top() {
+    return sizeof(this->top);
 }

@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstdint>
 #include <vector>
 #include <variant>
 #include "Array.h"
@@ -7,20 +6,17 @@
 #include "SimpleInit32Array.h"
 #include "SimpleInit64Array.h"
 #include "FolkloreInitArray.h"
+#include "NavarroInitArray.h"
 #include <map>
-#include <chrono>
-#include <memory>
-#include <cstring>
 
 // Array types to test
 const std::vector<std::string > array_types = {
         "PlainInitArray",
         "SimpleInit32Array",
         "SimpleInit64Array",
-//            "SimpleInitArray64",
-//            "SimpleInitArray64a",
         "FolkloreInitArray",
-//            "NavarroInitArray",
+        "NavarroInitArray"
+//            "SimpleInitArray64a",
 //            "InterleavedSimpleInitArray64a",
 //            "InterleavedFolkloreInitArray_v1",
 //            "InterleavedFolkloreInitArray_v2",
@@ -55,6 +51,8 @@ Array* create_instance(std::string alg_name, int n, double default_value) {
         return new SimpleInit64Array(n, default_value);
     } else if(alg_name == "FolkloreInitArray") {
         return new FolkloreInitArray(n, default_value);
+    } else if(alg_name == "NavarroInitArray") {
+        return new NavarroInitArray(n, default_value);
     }
 }
 
@@ -62,22 +60,7 @@ int main() {
     const int n = (1 << 27) + 5;
     const int32_t default_value = -1;
 
-    // Array types to test
-//    const std::vector<std::string > array_types = {
-//            "PlainInitArray",
-//            "SimpleInit32Array",
-//            "SimpleInit64Array",
-////            "SimpleInitArray64",
-////            "SimpleInitArray64a",
-//            "FolkloreInitArray",
-////            "NavarroInitArray",
-////            "InterleavedSimpleInitArray64a",
-////            "InterleavedFolkloreInitArray_v1",
-////            "InterleavedFolkloreInitArray_v2",
-////            "BlockSimpleInitArray8_64",
-////            "BlockFolkloreHybridInitArray"
-//    };
-        std::vector<std::tuple<std::string, int, int>> opss = {
+    std::vector<std::tuple<std::string, int, int>> opss = {
                             std::make_tuple("read", 123, 123), std::make_tuple("write", 2, 100), std::make_tuple("write", 123, 789),
                             std::make_tuple("write", 1LL << 27 | 3, 81), std::make_tuple("read", 2, 2), std::make_tuple("read", 3, 3),
                             std::make_tuple("read", 123, 123), std::make_tuple("read", 1LL << 27 | 3, 1LL << 27 | 3)
@@ -136,7 +119,6 @@ int main() {
         // END SYF
 
             // TODO: perform memory and time tests
-
             delete createdArray;
     }
 

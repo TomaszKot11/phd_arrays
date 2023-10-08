@@ -10,7 +10,6 @@
 
 //TODO: costexpr somewhere else
 constexpr int NO_BITS = 32;
-constexpr int SET_BIT = 1;
 
 SimpleInit32Array::SimpleInit32Array(int N, double DEFAULT_VALUE) : N_(N), DEFAULT_VALUE_(DEFAULT_VALUE) {
     double no_bits = this->N_ % NO_BITS > 0 ? this->N_ : this->N_ + ((NO_BITS - this->N_ % NO_BITS));
@@ -28,15 +27,15 @@ SimpleInit32Array::SimpleInit32Array(int N, double DEFAULT_VALUE) : N_(N), DEFAU
 double SimpleInit32Array::read(int i) {
     uint32_t index = ceil(i / NO_BITS);
     uint32_t value_shifted_32_bits_mod = this->B_[index] >> (i % NO_BITS); // traverse downwards
-    uint32_t bit_mask = SET_BIT; // 0000(...)1
+    uint32_t bit_mask = (uint32_t)1; // 0000(...)1
 
-    return (value_shifted_32_bits_mod & bit_mask) == SET_BIT ? this->data[i] : DEFAULT_VALUE_;
+    return (value_shifted_32_bits_mod & bit_mask) == 1 ? this->data[i] : DEFAULT_VALUE_;
 }
 
 // TODO: value should be uint32_t
 void SimpleInit32Array::write(int i, double value) {
     this->data[i] = (int32_t)value; // for now force int32_t; later adjust it?
-    B_[i / NO_BITS] |= (SET_BIT << (i % NO_BITS)); // if set the do nothing otherwise set the nth Bit
+    B_[i / NO_BITS] |= (1 << (i % NO_BITS)); // if set the do nothing otherwise set the nth Bit
 };
 
 SimpleInit32Array::~SimpleInit32Array() {
