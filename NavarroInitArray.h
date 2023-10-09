@@ -19,6 +19,7 @@ class NavarroInitArray: public Array {
         int32_t* S; // TODO: empty_like
         int top;
         int32_t* data;
+        size_t B_size;
         std::chrono::time_point<std::chrono::steady_clock> start_time;
         std::chrono::time_point<std::chrono::steady_clock> stop_time;
     public:

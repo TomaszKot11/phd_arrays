@@ -38,7 +38,7 @@ size_t get_property_size(Array* array_ptr, std::string field_name) {
     } else if (field_name == "top") {
         return array_ptr->get_top();
     } else {
-        throw std::runtime_error("Invalid attribute name");
+        throw std::runtime_error("Invalid field name");
     }
 }
 
@@ -54,6 +54,8 @@ Array* create_instance(std::string alg_name, int n, double default_value) {
         return new FolkloreInitArray(n, default_value);
     } else if(alg_name == "NavarroInitArray") {
         return new NavarroInitArray(n, default_value);
+    } else {
+        throw std::runtime_error("Invalid array type");
     }
 }
 
@@ -68,45 +70,43 @@ int main() {
                            };
 
     for(std::string cur_array : array_types) {
-            std::vector<std::string> ops = {"read", "write"};
-            // TODO: memory allocation (?)
-            Array* createdArray = create_instance(cur_array, n, default_value);
-            std::cout << "Witam serdecznie 1" << std::endl;
+        std::vector<std::string> ops = {"read", "write"};
+        // TODO: memory allocation (?)
+        Array *createdArray = create_instance(cur_array, n, default_value);
+        std::cout << "Witam serdecznie 1" << std::endl;
 
-            for(auto const& [path, status, size] : opss) {
-               if(path == "read") {
-                   std::cout << "read" << std::endl;
-                   createdArray->read(status);
-               } else if(path == "write") {
-                   std::cout << "write" << " " << status << " " << size << std::endl;
-                   createdArray->write(status, size);
-               } else {
-                   throw std::runtime_error("Invalid operation");
-               }
-               std::cout << std::endl;
+        for (auto const &[path, status, size]: opss) {
+            if (path == "read") {
+//                std::cout << "read" << std::endl;
+                createdArray->read(status);
+            } else if (path == "write") {
+//                std::cout << "write" << " " << status << " " << size << std::endl;
+                createdArray->write(status, size);
+            } else {
+                throw std::runtime_error("Invalid operation");
             }
+            std::cout << std::endl;
+        }
 
 //            for(std::string cur_array : array_types) {
 //
 //            }
 
         std::cout << "Starting benchmarking" << std::endl;
-            // SYF
+        // SYF
         constexpr int n = 1000000;
 
         std::map<std::string, int> init_times;
         std::unordered_map<std::string, int> memory_usage;
 
-        for (const std::string& array_type : array_types) {
-            std::cout << "LOOP" << std::endl;
+        for (const std::string &array_type: array_types) {
             // TODO: memory allocation
-            auto cur_array = make_pair(array_type,  create_instance(array_type, n, default_value));
+            auto cur_array = make_pair(array_type, create_instance(array_type, n, default_value));
             std::string array_type_name = cur_array.first.substr(array_type.length() - 2);
 //            init_times[array_type_name] = temp_times[1] - temp_times[0];
 
             size_t tmp_size = 0;
-            for (const std::string& field_name : {"B", "C", "S", "N", "top"}) {
-                std::cout << "LOOP 2" << std::endl;
+            for (const std::string &field_name: {"B", "C", "S", "N", "top"}) {
                 // TODO: refactor/catch the error
                 tmp_size += get_property_size(cur_array.second, field_name);
             }
@@ -120,9 +120,8 @@ int main() {
             memory_usage[array_type] = tmp_size;
         }
 
-        std::cout << "Memory usage: " << memory_usage.size() << std::endl;
-        for(auto it = memory_usage.cbegin(); it != memory_usage.cend(); ++it)
-        {
+        std::cout << "AUX. MEMORY USAGE (bytes):" << std::endl;
+        for (auto it = memory_usage.cbegin(); it != memory_usage.cend(); ++it) {
             std::cout << it->first << " " << it->second << "\n";
         }
 //        std::cout << memory_usage << std::endl;
@@ -169,11 +168,9 @@ int main() {
 //            queries1_times[i] = cur_array.read(item);
 
 
-            // TODO: perform memory and time tests
-            delete createdArray;
+        // TODO: perform memory and time tests
+        delete createdArray;
     }
-
-    std::cout << "Hello World" << std::endl;
 
     return 0;
 }

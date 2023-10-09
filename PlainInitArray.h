@@ -33,6 +33,8 @@ class PlainInitArray: public Array {
 
         double read(int i);
         void write(int i, double value);
+
+        size_t get_N() override;
 };
 
 

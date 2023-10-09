@@ -16,6 +16,7 @@ class SimpleInit32Array : public Array {
         const int DEFAULT_VALUE_;
         uint32_t* B_; // uint32_t
         int32_t* data; // int32_t to be sure
+        size_t B_size;
         std::chrono::time_point<std::chrono::steady_clock> start_time;
         std::chrono::time_point<std::chrono::steady_clock> stop_time;
     public:
@@ -24,6 +25,7 @@ class SimpleInit32Array : public Array {
 
         double read(int i) override;
         void write(int i, double value) override;
+
         size_t get_N() override;
         size_t get_B() override;
 };

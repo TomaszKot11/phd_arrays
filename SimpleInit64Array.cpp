@@ -8,6 +8,8 @@
 #include <vector>
 #include <cmath>
 #include <cstring>
+#include <cstdlib>
+#include <iostream>
 
 //TODO: costexpr somewhere else
 constexpr int NO_BITS = 64;
@@ -17,8 +19,8 @@ SimpleInit64Array::SimpleInit64Array(int N, double DEFAULT_VALUE) : N_(N), DEFAU
     double no_bits = this->N_ % NO_BITS > 0 ? this->N_ : this->N_ + ((NO_BITS - this->N_ % NO_BITS));
 
     this->data = new int64_t[N_];
-    auto B_size = (size_t)ceil(no_bits / NO_BITS);
-    this->B_ = new uint64_t[B_size];
+    this->B_size = (size_t)ceil(no_bits / NO_BITS);
+    this->B_ = new uint64_t[this->B_size];
 
     // Measure time of array init for cumulative measures
     this->start_time = std::chrono::steady_clock::now();
@@ -46,9 +48,11 @@ SimpleInit64Array::~SimpleInit64Array() {
 }
 
 size_t SimpleInit64Array::get_N() {
+    std::cout << "SimpleInit64Array N " << sizeof(this->N_) << std::endl;
     return sizeof(this->N_);
 }
 
 size_t SimpleInit64Array::get_B() {
-    return sizeof(this->B_);
+    std::cout << "SimpleInit64Array B " << sizeof(uint32_t) * this->B_size << std::endl;
+    return sizeof(uint64_t) * this->B_size;
 }

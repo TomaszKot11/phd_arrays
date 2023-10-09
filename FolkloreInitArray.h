@@ -29,7 +29,6 @@ class FolkloreInitArray: public Array {
             void write(int i, double value) override;
             int is_initialized(int i);
 
-            size_t get_B() override;
             size_t get_N() override;
             size_t get_S() override;
             size_t get_C() override;

@@ -26,3 +26,7 @@ void PlainInitArray::write(int i, double value) {
 PlainInitArray::~PlainInitArray() {
     delete[] this->data;
 }
+
+size_t PlainInitArray::get_N() {
+    return sizeof(this->N);
+}

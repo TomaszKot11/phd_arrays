@@ -15,6 +15,7 @@ private:
     const int DEFAULT_VALUE_;
     uint64_t* B_; // uint32_t
     int64_t* data; // int32_t to be sure
+    size_t B_size;
     std::chrono::time_point<std::chrono::steady_clock> start_time;
     std::chrono::time_point<std::chrono::steady_clock> stop_time;
 public:

@@ -11,7 +11,7 @@ NavarroInitArray::NavarroInitArray(int N_, int DEFAULT_VALUE_) : N_(N_), DEFAULT
     this->data = new int32_t[N_];
 
     double no_bits = this->N_ % NO_BITS > 0 ? this->N_ : this->N_ + ((NO_BITS - this->N_ % NO_BITS));
-    auto B_size = (size_t)ceil(no_bits / NO_BITS);
+    this->B_size = (size_t)ceil(no_bits / NO_BITS);
 
     this->B_ = new uint64_t[B_size];
 
@@ -61,21 +61,21 @@ void NavarroInitArray::write(int i, double value) {
 
 
 size_t NavarroInitArray::get_N() {
-    return 0;
+    return sizeof(this->N_);
 }
 
 size_t NavarroInitArray::get_S() {
-    return 0;
+    return sizeof(int32_t) * this->B_size;
 }
 
 size_t NavarroInitArray::get_C() {
-    return 0;
+    return sizeof(int32_t) * this->B_size;
 }
 
 size_t NavarroInitArray::get_top() {
-    return 0;
+    return sizeof(this->top);
 }
 
 size_t NavarroInitArray::get_B() {
-    return 0;
+    return sizeof(uint64_t) * this->B_size;
 }

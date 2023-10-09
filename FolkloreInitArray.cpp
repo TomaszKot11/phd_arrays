@@ -56,11 +56,11 @@ size_t FolkloreInitArray::get_N() {
 
 // TODO: this is size of a pointer
 size_t FolkloreInitArray::get_S() {
-    return sizeof(this->S);
+    return sizeof(uint32_t) * this->N_;
 }
 
 size_t FolkloreInitArray::get_C() {
-    return sizeof(this->C);
+    return sizeof(int32_t) * this->N_;
 }
 
 size_t FolkloreInitArray::get_top() {

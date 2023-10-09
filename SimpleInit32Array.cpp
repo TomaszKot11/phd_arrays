@@ -6,6 +6,7 @@
 #include <chrono>
 #include <vector>
 #include <cmath>
+#include <iostream>
 #include <cstring>
 
 //TODO: costexpr somewhere else
@@ -15,8 +16,8 @@ SimpleInit32Array::SimpleInit32Array(int N, double DEFAULT_VALUE) : N_(N), DEFAU
     double no_bits = this->N_ % NO_BITS > 0 ? this->N_ : this->N_ + ((NO_BITS - this->N_ % NO_BITS));
 
     this->data = new int32_t[N_];
-    auto B_size = (size_t)ceil(no_bits / NO_BITS);
-    this->B_ = new uint32_t[B_size];
+    this->B_size = (size_t)ceil(no_bits / NO_BITS);
+    this->B_ = new uint32_t[this->B_size];
 
     // Measure time of array init for cumulative measures
     this->start_time = std::chrono::steady_clock::now();
@@ -44,9 +45,11 @@ SimpleInit32Array::~SimpleInit32Array() {
 }
 
 size_t SimpleInit32Array::get_N() {
+    std::cout << "SimpleInit32Array N " << sizeof(this->N_) << std::endl;
     return sizeof(this->N_);
 }
 
 size_t SimpleInit32Array::get_B() {
-    return sizeof(this->B_);
+    std::cout << "SimpleInit32Array B " << sizeof(uint32_t) * this->B_size << std::endl;
+    return sizeof(uint32_t) * this->B_size;
 }
