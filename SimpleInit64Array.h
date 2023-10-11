@@ -10,23 +10,20 @@
 
 
 class SimpleInit64Array : public Array {
-private:
-    const int N_;
-    const int DEFAULT_VALUE_;
-    uint64_t* B_; // uint32_t
-    int64_t* data; // int32_t to be sure
-    size_t B_size;
-    std::chrono::time_point<std::chrono::steady_clock> start_time;
-    std::chrono::time_point<std::chrono::steady_clock> stop_time;
-public:
-    SimpleInit64Array(int N_, double DEFAULT_VALUE_);
-    ~SimpleInit64Array();
+    private:
+        int32_t DEFAULT_VALUE;
+        int32_t* data;
+        int64_t* B_; // uint32_t
+        size_t B_size;
+    public:
+        SimpleInit64Array(size_t N_, int32_t DEFAULT_VALUE_);
+        ~SimpleInit64Array();
 
-    double read(int i) override;
-    void write(int i, double value) override;
+        int32_t read(size_t i) override;
+        void write(size_t i, int32_t value) override;
 
-    size_t get_N() override;
-    size_t get_B() override;
+        size_t get_N() override;
+        size_t get_B() override;
 };
 
 

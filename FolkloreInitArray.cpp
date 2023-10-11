@@ -6,7 +6,9 @@
 #include "FolkloreInitArray.h"
 #include <chrono>
 
-FolkloreInitArray::FolkloreInitArray(int N_, int DEFAULT_VALUE_) : N_(N_), DEFAULT_VALUE_(DEFAULT_VALUE_), top(-1){
+FolkloreInitArray::FolkloreInitArray(size_t N_, int32_t DEFAULT_VALUE_)  {
+    this->N = N_;
+    this->DEFAULT_VALUE = DEFAULT_VALUE_;
     this->data = new int32_t[N_];// empty_like
 
     // If this is a stack is it right to initialize it "up-front" with N * int32_t
@@ -20,13 +22,13 @@ FolkloreInitArray::FolkloreInitArray(int N_, int DEFAULT_VALUE_) : N_(N_), DEFAU
 }
 
 // i as int32_t ?, return int32_t
-double FolkloreInitArray::read(int i) {
+int32_t FolkloreInitArray::read(size_t i) {
     // Complexity -> traverse stack so size(STACK) + n
-    return is_initialized(i) ? this->data[i] : this->DEFAULT_VALUE_;
+    return is_initialized(i) ? this->data[i] : this->DEFAULT_VALUE;
 }
 
 // uint32_t as i, double as int32_t (?)
-void FolkloreInitArray::write(int i, double value) {
+void FolkloreInitArray::write(size_t i, int32_t value) {
     // assign the value
     this->data[i] = value; // value should be int32_t
     if(!is_initialized(i)) {
@@ -51,16 +53,16 @@ FolkloreInitArray::~FolkloreInitArray() {
 
 // boilerplate
 size_t FolkloreInitArray::get_N() {
-    return sizeof(this->N_);
+    return sizeof(this->N);
 }
 
 // TODO: this is size of a pointer
 size_t FolkloreInitArray::get_S() {
-    return sizeof(uint32_t) * this->N_;
+    return sizeof(uint32_t) * this->N;
 }
 
 size_t FolkloreInitArray::get_C() {
-    return sizeof(int32_t) * this->N_;
+    return sizeof(int32_t) * this->N;
 }
 
 size_t FolkloreInitArray::get_top() {

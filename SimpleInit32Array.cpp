@@ -12,10 +12,12 @@
 //TODO: costexpr somewhere else
 constexpr int NO_BITS = 32;
 
-SimpleInit32Array::SimpleInit32Array(int N, double DEFAULT_VALUE) : N_(N), DEFAULT_VALUE_(DEFAULT_VALUE) {
-    double no_bits = this->N_ % NO_BITS > 0 ? this->N_ : this->N_ + ((NO_BITS - this->N_ % NO_BITS));
+SimpleInit32Array::SimpleInit32Array(size_t N_, int32_t DEFAULT_VALUE_) {
+    this->N = N_;
+    this->DEFAULT_VALUE = DEFAULT_VALUE_;
+    double no_bits = this->N % NO_BITS > 0 ? this->N : this->N + ((NO_BITS - this->N % NO_BITS));
 
-    this->data = new int32_t[N_];
+    this->data = new int32_t[N];
     this->B_size = (size_t)ceil(no_bits / NO_BITS);
     this->B_ = new uint32_t[this->B_size];
 
@@ -25,17 +27,17 @@ SimpleInit32Array::SimpleInit32Array(int N, double DEFAULT_VALUE) : N_(N), DEFAU
     this->stop_time =  std::chrono::steady_clock::now();
 }
 
-double SimpleInit32Array::read(int i) {
+int32_t SimpleInit32Array::read(size_t i) {
     uint32_t index = ceil(i / NO_BITS);
     uint32_t value_shifted_32_bits_mod = this->B_[index] >> (i % NO_BITS); // traverse downwards
     uint32_t bit_mask = (uint32_t)1; // 0000(...)1
 
-    return (value_shifted_32_bits_mod & bit_mask) == 1 ? this->data[i] : DEFAULT_VALUE_;
+    return (value_shifted_32_bits_mod & bit_mask) == 1 ? this->data[i] : this->DEFAULT_VALUE;
 }
 
 // TODO: value should be uint32_t
-void SimpleInit32Array::write(int i, double value) {
-    this->data[i] = (int32_t)value; // for now force int32_t; later adjust it?
+void SimpleInit32Array::write(size_t i, int32_t value) {
+    this->data[i] = value; // for now force int32_t; later adjust it?
     B_[i / NO_BITS] |= (1 << (i % NO_BITS)); // if set the do nothing otherwise set the nth Bit
 };
 
@@ -45,11 +47,9 @@ SimpleInit32Array::~SimpleInit32Array() {
 }
 
 size_t SimpleInit32Array::get_N() {
-    std::cout << "SimpleInit32Array N " << sizeof(this->N_) << std::endl;
-    return sizeof(this->N_);
+    return sizeof(this->N);
 }
 
 size_t SimpleInit32Array::get_B() {
-    std::cout << "SimpleInit32Array B " << sizeof(uint32_t) * this->B_size << std::endl;
     return sizeof(uint32_t) * this->B_size;
 }

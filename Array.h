@@ -3,26 +3,28 @@
 //
 
 #include <cstdint>
+#include <chrono>
+
 #ifndef UNTITLED_ARRAY_H
 #define UNTITLED_ARRAY_H
 
 
-// TODO: abstract (?)
 class Array {
-    private:
-        int32_t N;
-        int32_t DEFAULT_VALUE;
+    protected:
+        size_t N;
+        std::chrono::time_point<std::chrono::steady_clock> start_time;
+        std::chrono::time_point<std::chrono::steady_clock> stop_time;
     public:
-        const int32_t& GET_N() {
+        const size_t GET_N() {
             return N;
         }
 
-        const int32_t& GET_DEFAULT_VALUE() {
-            return DEFAULT_VALUE;
-        }
+//        const T GET_DEFAULT_VALUE() {
+//            return DEFAULT_VALUE;
+//        }
 
-        virtual double read(int i) = 0;
-        virtual void write(int i, double value) = 0;
+        virtual int read(size_t i) = 0;
+        virtual void write(size_t i, int value) = 0;
 
         // boilerplate - no reflection "B", "C", "S", "N", "top"
         virtual size_t get_B() {
@@ -39,6 +41,14 @@ class Array {
         }
         virtual size_t get_top() {
             return 0;
+        }
+
+        std::chrono::time_point<std::chrono::steady_clock> get_start_time() {
+            return this->start_time;
+        }
+
+        std::chrono::time_point<std::chrono::steady_clock> get_stop_time() {
+            return this->stop_time;
         }
 };
 

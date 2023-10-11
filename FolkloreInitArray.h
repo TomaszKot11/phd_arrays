@@ -12,21 +12,18 @@
 
 class FolkloreInitArray: public Array {
         private:
-            const int N_;
-            const int DEFAULT_VALUE_; // TODO: int32_t
             int32_t top;
-
+            size_t N;
+            int32_t DEFAULT_VALUE;
             uint32_t* S; // stack
+            int32_t* data;
             int32_t* C; // check array
-            int32_t* data; // data
-            std::chrono::time_point<std::chrono::steady_clock> start_time;
-            std::chrono::time_point<std::chrono::steady_clock> stop_time;
         public:
-            FolkloreInitArray(int N, int DEFAULT_VALUE);
+            FolkloreInitArray(size_t N, int32_t DEFAULT_VALUE);
             ~FolkloreInitArray();
 
-            double read(int i) override;
-            void write(int i, double value) override;
+            int32_t read(size_t i) override;
+            void write(size_t i, int32_t value) override;
             int is_initialized(int i);
 
             size_t get_N() override;

@@ -7,10 +7,12 @@
 
 constexpr int NO_BITS = 64;
 
-NavarroInitArray::NavarroInitArray(int N_, int DEFAULT_VALUE_) : N_(N_), DEFAULT_VALUE_(DEFAULT_VALUE_), top(-1){
+NavarroInitArray::NavarroInitArray(size_t N_, int32_t DEFAULT_VALUE_) {
+    this->N = N_;
+    this->DEFAULT_VALUE = DEFAULT_VALUE_;
     this->data = new int32_t[N_];
 
-    double no_bits = this->N_ % NO_BITS > 0 ? this->N_ : this->N_ + ((NO_BITS - this->N_ % NO_BITS));
+    double no_bits = this->N % NO_BITS > 0 ? this->N : this->N + ((NO_BITS - this->N % NO_BITS));
     this->B_size = (size_t)ceil(no_bits / NO_BITS);
 
     this->B_ = new uint64_t[B_size];
@@ -25,24 +27,24 @@ NavarroInitArray::NavarroInitArray(int N_, int DEFAULT_VALUE_) : N_(N_), DEFAULT
     this->stop_time = std::chrono::steady_clock::now();
 }
 
-double NavarroInitArray::read(int i) {
+int32_t NavarroInitArray::read(size_t i) {
     int index_in_B = ceil(i / NO_BITS);
 
     bool initialized = (0 <= this->C[index_in_B] && this->C[index_in_B] <= this->top) && (this->S[this->C[index_in_B]] == index_in_B);
     if (!initialized) {
-        return this->DEFAULT_VALUE_;
+        return this->DEFAULT_VALUE;
     }
     else {
         bool cur_bit = (this->B_[index_in_B] >> (i % NO_BITS)) & 1;
         if (cur_bit == 1) {
             return this->data[i];
         } else {
-            return this->DEFAULT_VALUE_;
+            return this->DEFAULT_VALUE;
         }
     }
 }
 
-void NavarroInitArray::write(int i, double value) {
+void NavarroInitArray::write(size_t i, int32_t value) {
     int index_in_B = ceil(i / NO_BITS);
     bool initialized = (0 <= this->C[index_in_B] && this->C[index_in_B] <= this->top) && (this->S[this->C[index_in_B]] == index_in_B);
 
@@ -61,7 +63,7 @@ void NavarroInitArray::write(int i, double value) {
 
 
 size_t NavarroInitArray::get_N() {
-    return sizeof(this->N_);
+    return sizeof(this->N);
 }
 
 size_t NavarroInitArray::get_S() {

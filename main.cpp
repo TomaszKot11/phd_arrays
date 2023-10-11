@@ -9,6 +9,7 @@
 #include "NavarroInitArray.h"
 #include <map>
 #include <chrono>
+#include <random>
 
 // Array types to test
 const std::vector<std::string > array_types = {
@@ -73,37 +74,33 @@ int main() {
         std::vector<std::string> ops = {"read", "write"};
         // TODO: memory allocation (?)
         Array *createdArray = create_instance(cur_array, n, default_value);
-        std::cout << "Witam serdecznie 1" << std::endl;
 
         for (auto const &[path, status, size]: opss) {
             if (path == "read") {
-//                std::cout << "read" << std::endl;
                 createdArray->read(status);
             } else if (path == "write") {
-//                std::cout << "write" << " " << status << " " << size << std::endl;
                 createdArray->write(status, size);
             } else {
                 throw std::runtime_error("Invalid operation");
             }
             std::cout << std::endl;
         }
+    }
 
-//            for(std::string cur_array : array_types) {
-//
-//            }
-
-        std::cout << "Starting benchmarking" << std::endl;
+        std::cout << "Starting memory benchmarking" << std::endl;
         // SYF
-        constexpr int n = 1000000;
+        constexpr int nn = 1000000;
 
-        std::map<std::string, int> init_times;
+//        std::map<std::string, int> init_times;
         std::unordered_map<std::string, int> memory_usage;
+        std::unordered_map<std::string, std::chrono::nanoseconds> write_times;
+        std::unordered_map<std::string, std::chrono::nanoseconds> read_times;
+        std::unordered_map<std::string, std::chrono::nanoseconds> init_times;
 
         for (const std::string &array_type: array_types) {
             // TODO: memory allocation
-            auto cur_array = make_pair(array_type, create_instance(array_type, n, default_value));
+            auto cur_array = make_pair(array_type, create_instance(array_type, nn, default_value));
             std::string array_type_name = cur_array.first.substr(array_type.length() - 2);
-//            init_times[array_type_name] = temp_times[1] - temp_times[0];
 
             size_t tmp_size = 0;
             for (const std::string &field_name: {"B", "C", "S", "N", "top"}) {
@@ -118,59 +115,76 @@ int main() {
 //            }
 
             memory_usage[array_type] = tmp_size;
+
+
+            std::cout << "Start read/write benchmarking" << std::endl;
+
+            // TODO: consexpr?
+            const int m = 1000000;
+
+            std::vector<int> queries1;
+            std::random_device rd;
+            std::mt19937 gen(rd());
+
+            std::chrono::time_point<std::chrono::high_resolution_clock> t1, t2;
+
+            // generate queries as int numbers
+            for (int i = 0; i < m; i++) {
+                queries1.push_back(std::uniform_int_distribution<int>(0, n - 1)(gen));
+            }
+
+            Array* createdArray = cur_array.second;
+
+            t1 = std::chrono::high_resolution_clock::now();
+            for(int i = 0 ; i < m; i++) {
+                createdArray->write(i, queries1[i]);
+            }
+            t2 = std::chrono::high_resolution_clock::now();
+
+            write_times[array_type] = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1);
+
+            // reverse queries digits
+            std::reverse(queries1.begin(), queries1.end());
+            std::vector<int> tmp_list(m);
+
+            t1 = std::chrono::high_resolution_clock::now();
+            for(int i = 0; i < m; i++) {
+                tmp_list[i] = createdArray->read(i);
+            }
+            t2 = std::chrono::high_resolution_clock::now();
+
+            read_times[array_type] = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1);
+
+
+            // gather init times
+            init_times[array_type] = std::chrono::duration_cast<std::chrono::nanoseconds>(createdArray->get_stop_time() - createdArray->get_start_time());
+            delete createdArray;
         }
+
+        std::cout << "Init times (ns):" << std::endl;
+        for (auto it = init_times.cbegin(); it != init_times.cend(); ++it) {
+            std::cout << it->first << " " << it->second.count() << "\n";
+        }
+        std::cout<<std::endl;
+
 
         std::cout << "AUX. MEMORY USAGE (bytes):" << std::endl;
         for (auto it = memory_usage.cbegin(); it != memory_usage.cend(); ++it) {
             std::cout << it->first << " " << it->second << "\n";
         }
-//        std::cout << memory_usage << std::endl;
+        std::cout<<std::endl;
 
-        // END SYF
-        // Random operation time tests
-//        int m = 1000000;
-//        std::vector<int> queries1(m);
-//        std::vector<int> queries2;
-//
-//        for (int i = 0; i < m; i++) {
-//            // TODO: use C++11 random?
-//            queries1[i] = rand() % n;
-//        }
-//
-//        //  queries2 = list(range(m // 2)) + list(range(n - m // 2, n))
-//        for (int i = 0; i < m / 2; i++) {
-//            queries2.push_back(i);
-//        }
-//
-//        auto t1 = std::chrono::high_resolution_clock::now();
-//        for (int i = 0; i < m; i++) {
-//            std::cout << queries1[i] << " ";
-//        }
-//        auto t2 = std::chrono::high_resolution_clock::now();
-//        auto write_times = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1);
-//
-//        std::vector<int> tmp_list;
-//
-//        t1 = std::chrono::high_resolution_clock::now();
-//        for (int i = m - 1; i >= 0; i--) {
-//            int item = queries1[i];
-//            tmp_list.push_back(item);
-//        }
-//        t2 = std::chrono::high_resolution_clock::now();
-//        auto results = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1);
+        std::cout << "Write times (ns):" << std::endl;
+        for (auto it = write_times.cbegin(); it != write_times.cend(); ++it) {
+            std::cout << it->first << " " << it->second.count() << std::endl;
+        }
+        std::cout<<std::endl;
 
-//        t2 = std::chrono::high_resolution_clock::now();
-//        auto results = chrono::duration_cast<chrono::nanoseconds>(t2 - t1);
-//
-//        vector<int> queries1_times(m);
-//        for (int i = 0; i < m; i++) {
-//            int item = tmp_list[i];
-//            queries1_times[i] = cur_array.read(item);
-
-
-        // TODO: perform memory and time tests
-        delete createdArray;
-    }
+        std::cout << "Read times (ns):" << std::endl;
+        for (auto it = read_times.cbegin(); it != read_times.cend(); ++it) {
+            std::cout << it->first << " " << it->second.count() << std::endl;
+        }
+        std::cout<<std::endl;
 
     return 0;
 }

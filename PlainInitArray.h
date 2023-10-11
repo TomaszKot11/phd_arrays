@@ -22,17 +22,15 @@
 
 class PlainInitArray: public Array {
     private:
-        int N;
-        double DEFAULT_VALUE;
+        int32_t DEFAULT_VALUE;
+        size_t N;
         int32_t* data; // int32
-        std::chrono::time_point<std::chrono::steady_clock> start_time;
-        std::chrono::time_point<std::chrono::steady_clock> stop_time;
     public:
-        PlainInitArray(int N_, double DEFAULT_VALUE_);
+        PlainInitArray(size_t N_, int32_t DEFAULT_VALUE_);
         ~PlainInitArray();
 
-        double read(int i);
-        void write(int i, double value);
+        int32_t read(size_t i) override;
+        void write(size_t i, int32_t value) override;
 
         size_t get_N() override;
 };

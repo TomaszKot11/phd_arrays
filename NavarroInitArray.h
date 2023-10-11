@@ -12,27 +12,25 @@
 
 class NavarroInitArray: public Array {
     private:
-        const int N_;
-        const int DEFAULT_VALUE_;
+        int32_t DEFAULT_VALUE;
+        size_t N;
+        int32_t* data;
         uint64_t* B_; // uint32_t
         int32_t* C;
         int32_t* S; // TODO: empty_like
         int top;
-        int32_t* data;
         size_t B_size;
-        std::chrono::time_point<std::chrono::steady_clock> start_time;
-        std::chrono::time_point<std::chrono::steady_clock> stop_time;
     public:
-    NavarroInitArray(int N_, int DEFAULT_VALUE_);
+        NavarroInitArray(size_t N_, int32_t DEFAULT_VALUE_);
 
-    double read(int i) override;
-    void write(int i, double value) override;
+        int32_t read(size_t i) override;
+        void write(size_t i, int32_t value) override;
 
-    size_t get_N() override;
-    size_t get_S() override;
-    size_t get_C() override;
-    size_t get_top() override;
-    size_t get_B() override;
+        size_t get_N() override;
+        size_t get_S() override;
+        size_t get_C() override;
+        size_t get_top() override;
+        size_t get_B() override;
 };
 
 
